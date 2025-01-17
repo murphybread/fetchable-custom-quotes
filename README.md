@@ -21,11 +21,13 @@ data.json에 다음의 양식의 파일을 작성
 }
 ```
 
-vercel funtion기준으로 리 라우팅됨
-기본 경로에서 data.json출력
-?id=013ebc01-5ed5-45b0-baea-c3f4d2fe72fa 파라미터로 해당 quote 출력
+### vercel funtion기준으로 리 라우팅됨
 
-기술
+기본 경로에서 data.json출력
+`?id=013ebc01-5ed5-45b0-baea-c3f4d2fe72fa`파라미터로 해당 quote 출력
+
+#### 기술
+
 data.js 와 같은 형태로 파일 형태로 저장한 후 어디에서든 fetch가능한 형태가 best
 클라이언트쪽에서는 API형태로 간단하게 호출
 
