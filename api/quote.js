@@ -21,3 +21,4 @@ export default async function handler(req, res) {
     // 그 외의 모든 경로 (404 에러)
     return res.status(404).json({ message: "Not Found" });
   }
+}
