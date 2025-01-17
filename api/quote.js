@@ -1,5 +1,5 @@
 // api/quote.js
-import quotes from "../data.json" assert { type: "json" };
+import quotes from "../data.json" with { type: "json" };
 
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url, `http://${req.headers.host}`);
