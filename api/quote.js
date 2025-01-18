@@ -30,7 +30,6 @@ export default async function handler(req, res) {
 
   if (contentQuery) {
     const { status, data } = findByContent(contentQuery);
-    // data는 항상 배열 또는 에러 메시지 객체
     return res.status(status).json(data);
   }
 
