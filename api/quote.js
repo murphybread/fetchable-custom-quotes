@@ -1,24 +1,38 @@
 // api/quote.js
 import quotes from "../data.json" with { type: "json" };
 
-export default async function handler(req, res) {
-  const { pathname, searchParams } = new URL(req.url, `http://${req.headers.host}`);
-  const id = searchParams.get("id");
+function findById(id) {
+  const quote = quotes.find((q) => q.id === id);
+  return quote ? { status: 200, data: quote } : { status: 404, data: { message: "Quote not found" } };
+}
 
-  if (pathname === "/") {
-    if (id) {
-      // ID가 있는 경우 해당 quote 반환
-      const quote = quotes.find((q) => q.id === id);
-      if (quote) {
-        return res.status(200).json(quote);
-      } else {
-        return res.status(404).json({ message: "Quote not found" });
-      }
-    }
-    // ID가 없는 경우 전체 목록 반환
-    return res.status(200).json(quotes);
-  } else {
-    // 그 외의 모든 경로 (404 에러)
-    return res.status(404).json({ message: "Not Found" });
+function findByContent(contentQuery) {
+  const matchedQuotes = quotes.filter((q) =>
+    q.content.toLowerCase().includes(contentQuery.toLowerCase())
+  );
+
+  return matchedQuotes.length > 0
+    ? { status: 200, data: matchedQuotes }
+    : { status: 404, data: { message: "No matching content include quotes found" } };
+
+}
+
+
+export default async function handler(req, res) {
+  const { searchParams } = new URL(req.url, `http://${req.headers.host}`);
+  const id = searchParams.get("id");
+  const contentQuery = searchParams.get("content");
+
+  if (id) {
+    const { status, data } = findById(id);
+    return res.status(status).json(data);
   }
+
+  if (contentQuery) {
+    const { status, data } = findByContent(contentQuery);
+    // data는 항상 배열 또는 에러 메시지 객체
+    return res.status(status).json(data);
+  }
+
+  return res.status(200).json(quotes);
 }
