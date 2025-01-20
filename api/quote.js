@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     try{
         const newQuote = req.body;
         const updatedQuotes = [...quotes, newQuote];
+        console.log(newQuote)
 
         const filePath = path.resolve('data.json');
         fs.writeFileSync(filePath, JSON.stringify(updatedQuotes, null, 2));
