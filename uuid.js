@@ -14,3 +14,26 @@ function simpleUUID() {
   }
   return uuid;
 }
+
+function simpleHexUUID() {
+  // 16진수로 표현할 수 있는 문자들
+  const hex = "0123456789abcdef";
+  let uuid = "";
+
+  // UUID 형식: 8-4-4-4-12 자리
+  const lengths = [8, 4, 4, 4, 12];
+
+  lengths.forEach((length, index) => {
+    // 각 부분의 길이만큼 반복
+    for (let i = 0; i < length; i++) {
+      // 무작위로 16진수 문자 선택
+      uuid += hex[Math.floor(Math.random() * 16)];
+    }
+    // 마지막 부분이 아니면 하이픈 추가
+    if (index < lengths.length - 1) {
+      uuid += "-";
+    }
+  });
+
+  return uuid;
+}
