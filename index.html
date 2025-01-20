@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      input {
+        display: block;
+        margin-bottom: 10px;
+        width: 300px;
+      }
+
+      select {
+        display: block;
+        margin-bottom: 10px;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="quoteForm">
+      <input type="text" id="content" placeholder="내용" />
+      <input type="text" id="author" placeholder="작성자" />
+      <select id="type" placeholder="타입">
+
+        <option value="quote">quote</option>
+        <option value="origianl">original</option>
+        <option value="interpretation">interpretation</option>
+      <input
+        type="text"
+        id="id"
+        placeholder="ID"
+        style="display: inline-block"
+      />
+      <button
+        type="button"
+        onclick="document.getElementById('id').value = simpleUUID()"
+      >
+        UUID 생성
+      </button>
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script src="uuid.js"></script>
+    <script>
+      document
+        .getElementById("quoteForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          // 폼 데이터 수집
+          const newQuote = {
+            content: document.getElementById("content").value,
+            author: document.getElementById("author").value,
+            type: document.getElementById("type").value,
+            id: document.getElementById("id").value,
+          };
+
+          try {
+            // 기존 data.json 읽어오기
+            const response = await fetch("data.json");
+            const existingData = await response.json();
+
+            // 새로운 데이터 추가
+            existingData.push(newQuote);
+
+            // 서버로 데이터 전송 (서버 API가 필요)
+            const saveResponse = await fetch("/api/quote", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(existingData),
+            });
+
+            if (saveResponse.ok) {
+              alert("데이터가 성공적으로 저장되었습니다.");
+              this.reset(); // 폼 초기화
+            } else {
+              throw new Error("데이터 저장에 실패했습니다.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("데이터 처리 중 오류가 발생했습니다.");
+          }
+        });
+    </script>
+  </body>
+</html>

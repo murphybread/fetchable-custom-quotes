@@ -22,6 +22,16 @@ export default async function handler(req, res) {
   const { searchParams } = new URL(req.url, `http://${req.headers.host}`);
   const id = searchParams.get("id");
   const contentQuery = searchParams.get("content");
+   if (req.method === 'POST') {
+    try{
+        const newQuote = req.body;
+        quotes.push(newQuote);
+
+      return res.status(200).json({ message: 'Quote added successfully', newQuote });
+    }catch(error){
+      return res.status(500).json({ message: 'Internal Server Error', error });
+    }
+   }
 
   if (id) {
     const { status, data } = findById(id);
