@@ -1,5 +1,7 @@
 // api/quote.js
 import quotes from "../data.json" with { type: "json" };
+import path from 'path';
+import fs from 'fs';
 
 function findById(id) {
   const quote = quotes.find((q) => q.id === id);
