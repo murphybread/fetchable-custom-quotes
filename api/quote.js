@@ -25,7 +25,10 @@ export default async function handler(req, res) {
    if (req.method === 'POST') {
     try{
         const newQuote = req.body;
-        quotes.push(newQuote);
+        const updatedQuotes = [...quotes, newQuote];
+
+        const filePath = path.resolve('data.json');
+        fs.writeFileSync(filePath, JSON.stringify(updatedQuotes, null, 2));
 
       return res.status(200).json({ message: 'Quote added successfully', newQuote });
     }catch(error){
