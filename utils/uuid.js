@@ -1,4 +1,4 @@
-function simpleUUID() {
+export function simpleUUID() {
   const randomValues = new Uint8Array(16);
   crypto.getRandomValues(randomValues);
 
@@ -15,7 +15,7 @@ function simpleUUID() {
   return uuid;
 }
 
-function simpleHexUUID() {
+function simpleHexUUIDNotProper() {
   // 16진수로 표현할 수 있는 문자들
   const hex = "0123456789abcdef";
   let uuid = "";
